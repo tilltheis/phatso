@@ -36,6 +36,8 @@
  *   - auto-detect base web root for relative URLs
  * Version 0.2.1 :: 2009-05-31
  *   - bug reported by Sebastien Duquette
+ * Version 0.2.2 :: 2011-02-18
+ *   - bug reported by Till Theis (http://www.tilltheis.de)
  *
  */
 
