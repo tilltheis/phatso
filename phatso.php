@@ -107,10 +107,10 @@ class Phatso
 
     /**
      * Redirect to a new URL
+     * Phatso::run() must have been called before.
      */
     function redirect($url) {
-        $url = $_SERVER['SCRIPT_NAME'].$url;
-        header("Location: $url");
+        header('Location: ' . $this->web_root . $path);
         die;
     }
 
