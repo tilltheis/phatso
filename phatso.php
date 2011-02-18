@@ -59,14 +59,25 @@ class Phatso
      * URL route array.
      */
     function run($urls) {
-        error_reporting(E_ALL & E_NOTICE);
-        $ctrl = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-        for($i = 0; $i < strlen($ctrl); $i++) {
-            if($ctrl{$i} != $_SERVER['SCRIPT_NAME']{$i}) break;
+        $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        $this->web_root = $_SERVER['SCRIPT_NAME'];
+
+        if (strpos($request, $this->web_root) !== 0) {
+            $this->web_root = dirname($this->web_root);
+
+            if (strpos($request, $this->web_root) !== 0) {
+                $this->web_root = '';
+            }
         }
-        $this->web_root = substr($ctrl, 0, $i);
-        $ctrl = trim(substr($ctrl, $i), '/').'/';
-        if($ctrl{0} != '/') $ctrl = "/$ctrl";
+
+        $ctrl = substr($request, strlen($this->web_root));
+        $ctrl = rtrim($ctrl, '/') . '/';
+        if ($ctrl{0} !== '/') {
+            $ctrl = "/$ctrl";
+        }
+
+        $this->web_root = rtrim($this->web_root, '/') . '/';
+
 
         $action = '';
         $params = array();
