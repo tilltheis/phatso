@@ -118,6 +118,7 @@ class Phatso
 
         $this->action = $action;
 
+        $this->beforeFilter();
         if (function_exists("exec_{$action}")) {
             call_user_func("exec_{$action}", $this, $params);
         }
@@ -127,6 +128,7 @@ class Phatso
         else {
             $this->status('404', 'File not found');
         }
+        $this->afterFilter();
     }
 
     /**
@@ -201,4 +203,16 @@ class Phatso
         }
         echo $this->fetch($filename, $vars);
     }
+
+    /**
+     * abstract method to be run before calling the action method
+     */
+     function beforeFilter() {
+     }
+
+    /**
+     * abstract method to be run after calling the action method
+     */
+     function afterFilter() {
+     }
 }
