@@ -40,7 +40,7 @@
  *   - bug reported by Till Theis (http://www.tilltheis.de)
  *
  */
-define('DEBUG', true);
+
 if (!defined('VIEWS')) {
     define('VIEWS', 'templates');
 }

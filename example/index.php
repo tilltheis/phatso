@@ -1,5 +1,10 @@
 <?php
 /**
+ * set DEBUG to true to display php errors
+ */
+define('DEBUG', true);
+
+/**
  * set up the urls
  */
 $URLS = array(
