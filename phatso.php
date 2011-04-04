@@ -52,15 +52,15 @@ if (!defined('DEBUG')) {
 // if DEBUG is false do not display errors
 if (DEBUG) {
     error_reporting(-1);
-	ini_set('display_errors', 1);
+    ini_set('display_errors', 1);
 }
 else {
     error_reporting(0);
-	ini_set('display_errors', 0);
+    ini_set('display_errors', 0);
 }
 
 function debug($arg) {
-	if (DEBUG === false) return;
+    if (DEBUG === false) return;
     $args = func_get_args();
     echo '<pre>';
     foreach($args as $arg) {
@@ -78,8 +78,11 @@ class Phatso
     /**
      * Dispatch web request to correct function, as defined by
      * URL route array.
+     *
+     * @param array $urls
      */
-    function run($urls) {
+    function run($urls) 
+    {
         $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $this->web_root = $_SERVER['SCRIPT_NAME'];
 
@@ -125,6 +128,9 @@ class Phatso
 
     /**
      * Set HTTP status code and exit.
+     *
+     * @param int $code
+     * @param string $msg
      */
     function status($code, $msg) {
         header("{$_SERVER['SERVER_PROTOCOL']} $code");
@@ -134,15 +140,22 @@ class Phatso
     /**
      * Redirect to a new URL
      * Phatso::run() must have been called before.
+     *
+     * @param string $url
+     * @param int $code
+     * @param string $msg
      */
     function redirect($url, $code = 302, $msg = 'Found') {
-		header($_SERVER['SERVER_PROTOCOL'] . ' ' . $code . ' ' . $msg);
+        header($_SERVER['SERVER_PROTOCOL'] . ' ' . $code . ' ' . $msg);
         header('Location: ' . $url);
         die;
     }
 
     /**
      * Set a template variable.
+     *
+     * @param string $name
+     * @param mixed $val
      */
     function set($name, $val) {
         $this->template_vars[$name] = $val;
@@ -150,6 +163,9 @@ class Phatso
 
     /**
      * Render a template and return the content.
+     *
+     * @param string $template_filename
+     * @param array $vars
      */
     function fetch($template_filename, $vars=array())
     {
@@ -168,6 +184,10 @@ class Phatso
     /**
      * Render a template (with optional layout) and send the
      * content to the browser.
+     *
+     * @param string $filename
+     * @param array $vars
+     * @param string $layout
      */
     function render($filename, $vars=array(), $layout='')
     {
