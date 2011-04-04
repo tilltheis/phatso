@@ -151,8 +151,11 @@ class Phatso
         $vars = array_merge($this->template_vars, $vars);
         ob_start();
         extract($vars, EXTR_SKIP);
-        if (file_exists(VIEWS.DIRECTORY_SEPARATOR.$template_filename)) {
-            require VIEWS.DIRECTORY_SEPARATOR.$template_filename;
+        if (file_exists(VIEWS . DIRECTORY_SEPARATOR . $template_filename)) {
+            require VIEWS . DIRECTORY_SEPARATOR . $template_filename;
+        }
+        elseif (DEBUG) {
+            echo 'File not found: ' . VIEWS . DIRECTORY_SEPARATOR . $template_filename;
         }
         return str_replace('/.../', $this->web_root, ob_get_clean());
     }
