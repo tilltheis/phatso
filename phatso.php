@@ -74,6 +74,7 @@ class Phatso
     var $template_layout = 'layout.php';
     var $template_vars   = array();
     var $web_root        = '';
+    var $action          = ''; 
 
     /**
      * Dispatch web request to correct function, as defined by
@@ -114,6 +115,8 @@ class Phatso
                 break;
             }
         }
+
+        $this->action = $action;
 
         if (function_exists("exec_{$action}")) {
             call_user_func("exec_{$action}", $this, $params);
