@@ -130,8 +130,9 @@ class Phatso
      * Redirect to a new URL
      * Phatso::run() must have been called before.
      */
-    function redirect($url) {
-        header('Location: ' . $this->web_root . $path);
+    function redirect($url, $code = 302, $msg = 'Found') {
+		header($_SERVER['SERVER_PROTOCOL'] . ' ' . $code . ' ' . $msg);
+        header('Location: ' . $url);
         die;
     }
 
