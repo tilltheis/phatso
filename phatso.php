@@ -40,7 +40,7 @@
  *   - bug reported by Till Theis (http://www.tilltheis.de)
  *
  */
-
+define('DEBUG', true);
 if (!defined('VIEWS')) {
     define('VIEWS', 'templates');
 }
@@ -112,10 +112,15 @@ class Phatso
             }
         }
 
-        if(!function_exists("exec_{$action}")) {
+        if (function_exists("exec_{$action}")) {
+            call_user_func("exec_{$action}", $this, $params);
+        }
+        elseif (method_exists($this, $action)) {
+            $this->{$action}($params);
+        }
+        else {
             $this->status('404', 'File not found');
         }
-        call_user_func("exec_{$action}", $this, $params);
     }
 
     /**
