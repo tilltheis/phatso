@@ -41,7 +41,22 @@
  *
  */
 
+if (!defined('DEBUG')) {
+    define('DEBUG', false);
+}
+
+// if DEBUG is false do not display errors
+if (DEBUG) {
+    error_reporting(-1);
+	ini_set('display_errors', 1);
+} 
+else {
+    error_reporting(0);
+	ini_set('display_errors', 0);
+}
+
 function debug($arg) {
+	if (DEBUG === false) return;
     $args = func_get_args();
     echo '<pre>';
     foreach($args as $arg) {
