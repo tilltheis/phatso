@@ -2,7 +2,7 @@
 /**
  * Phatso - A PHP Micro Framework
  * Copyright (C) 2008, Judd Vinet <jvinet@zeroflux.org>
- * 
+ *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -11,14 +11,14 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- * 
+ *
  * (1) The above copyright notice and this permission notice shall be
  *     included in all copies or substantial portions of the Software.
  * (2) Except as contained in this notice, the name(s) of the above
  *     copyright holders shall not be used in advertising or otherwise
  *     to promote the sale, use or other dealings in this Software
  *     without prior written authorization.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -41,6 +41,10 @@
  *
  */
 
+if (!defined('VIEWS')) {
+    define('VIEWS', 'templates');
+}
+
 if (!defined('DEBUG')) {
     define('DEBUG', false);
 }
@@ -49,7 +53,7 @@ if (!defined('DEBUG')) {
 if (DEBUG) {
     error_reporting(-1);
 	ini_set('display_errors', 1);
-} 
+}
 else {
     error_reporting(0);
 	ini_set('display_errors', 0);
@@ -146,7 +150,9 @@ class Phatso
         $vars = array_merge($this->template_vars, $vars);
         ob_start();
         extract($vars, EXTR_SKIP);
-        require 'templates/'.$template_filename;
+        if (file_exists(VIEWS.DIRECTORY_SEPARATOR.$template_filename)) {
+            require VIEWS.DIRECTORY_SEPARATOR.$template_filename;
+        }
         return str_replace('/.../', $this->web_root, ob_get_clean());
     }
 
