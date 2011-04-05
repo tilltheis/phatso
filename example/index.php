@@ -8,7 +8,8 @@ define('DEBUG', true);
  * set up the urls
  */
 $URLS = array(
-	'/' => 'index'
+	'/' => 'index',
+	'/hello/' => 'hello'
 );
 
 /**
@@ -22,7 +23,15 @@ $app->run($URLS);
  * funtion to be executed on / request
  */
 function exec_index($app, $params) {
+	$app->set('title', 'Phatos Sample Application');
+	// index view is auto rendered
+}
+
+/**
+ * function to be executed on /hello/ request
+ */
+function exec_hello($app, $params) {
 	$app->set('text', 'Hello World!');
-	$app->render('index.php');
+	// hello view is auto rendered
 }
 ?>
