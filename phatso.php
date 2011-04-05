@@ -108,9 +108,9 @@ class Phatso
         $action = '';
         $params = array();
         foreach($urls as $request=>$route) {
-            if(preg_match('#^'.$request.'$#', $ctrl, $matches)) {
+            if (preg_match('#^'.$request.'$#', $ctrl, $matches)) {
                 $action = $route;
-                if(!empty($matches[1])) {
+                if (!empty($matches[1])) {
                     $params = explode('/', trim($matches[1], '/'));
                 }
                 break;
@@ -203,8 +203,8 @@ class Phatso
      */
     function render($filename, $vars=array(), $layout='')
     {
-        if(empty($layout)) $layout = $this->template_layout;
-        if($layout) {
+        if (empty($layout)) $layout = $this->template_layout;
+        if ($layout) {
             $vars['CONTENT_FOR_LAYOUT'] = $this->fetch($filename, $vars);
             $filename = $layout;
         }
@@ -219,11 +219,11 @@ class Phatso
     {
         $protocol = 'http://';
         $port = '';
-	    if(!empty($_SERVER['HTTPS'])) {
+	    if (!empty($_SERVER['HTTPS'])) {
             $protocol = 'https://';
         }
-        if($_SERVER['SERVER_PORT'] != 80) {
-            $port = ':'.$_SERVER['SERVER_PORT'];
+        if ($_SERVER['SERVER_PORT'] != 80) {
+            $port = ':' . $_SERVER['SERVER_PORT'];
         }
         return $protocol . $_SERVER['SERVER_NAME'] . $port;
     }
