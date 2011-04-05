@@ -155,6 +155,9 @@ class Phatso
      * @param string $msg
      */
     function redirect($url, $code = 302, $msg = 'Found') {
+        if (!preg_match('(^http(s)?://)', $url)) {
+            $url = $this->get_current_url() . $this->web_root . $url;
+        }
         header($_SERVER['SERVER_PROTOCOL'] . ' ' . $code . ' ' . $msg);
         header('Location: ' . $url);
         die;
@@ -207,6 +210,22 @@ class Phatso
         }
         echo $this->fetch($filename, $vars);
         $this->auto_render = false;
+    }
+
+    /**
+     * return the current url
+     */
+    function get_current_url() 
+    {
+        $protocol = 'http://';
+        $port = '';
+	    if(!empty($_SERVER['HTTPS'])) {
+            $protocol = 'https://';
+        }
+        if($_SERVER['SERVER_PORT'] != 80) {
+            $port = ':'.$_SERVER['SERVER_PORT'];
+        }
+        return $protocol . $_SERVER['SERVER_NAME'] . $port;
     }
 
     /**
