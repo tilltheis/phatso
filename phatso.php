@@ -153,7 +153,7 @@ class Phatso
      */
     function redirect($url, $code = 302, $msg = 'Found') {
         if (!preg_match('(^http(s)?://)', $url)) {
-            $url = $this->get_current_url() . $this->web_root . $url;
+            $url = $this->getBaseUrl() . $this->web_root . $url;
         }
         header($_SERVER['SERVER_PROTOCOL'] . ' ' . $code . ' ' . $msg);
         header('Location: ' . $url);
@@ -212,7 +212,7 @@ class Phatso
     /**
      * return the current url
      */
-    function get_current_url() 
+    function getBaseUrl() 
     {
         $protocol = 'http://';
         $port = '';
