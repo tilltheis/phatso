@@ -75,6 +75,7 @@ class Phatso
     var $template_vars   = array();
     var $web_root        = '';
     var $action          = ''; 
+    var $auto_render     = true;
 
     /**
      * Dispatch web request to correct function, as defined by
@@ -127,6 +128,9 @@ class Phatso
         }
         else {
             $this->status('404', 'File not found');
+        }
+        if ($this->auto_render == true) {
+            $this->render($action . '.php');
         }
         $this->afterFilter();
     }
@@ -202,6 +206,7 @@ class Phatso
             $filename = $layout;
         }
         echo $this->fetch($filename, $vars);
+        $this->auto_render = false;
     }
 
     /**
