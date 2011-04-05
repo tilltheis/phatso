@@ -139,7 +139,7 @@ class Phatso
      * @param string $msg
      */
     function status($code, $msg) {
-        header("{$_SERVER['SERVER_PROTOCOL']} $code");
+        header("{$_SERVER['SERVER_PROTOCOL']} $code $msg");
         die($msg);
     }
 
