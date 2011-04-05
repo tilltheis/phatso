@@ -115,13 +115,11 @@ class Phatso
         }
 
         $this->action = $action;
+        $action_method = $action . 'Action';
 
         $this->beforeFilter();
-        if (function_exists("exec_{$action}")) {
-            call_user_func("exec_{$action}", $this, $params);
-        }
-        elseif (method_exists($this, $action)) {
-            $this->{$action}($params);
+        if (method_exists($this, $action_method)) {
+			call_user_func_array(array(&$this, $action_method), $params);
         }
         else {
             $this->status('404', 'File not found');
