@@ -231,12 +231,14 @@ class Phatso
     /**
      * abstract method to be run before calling the action method
      */
-     function beforeFilter() {
-     }
+    function beforeFilter()
+    {
+    }
 
     /**
      * abstract method to be run after calling the action method
      */
-     function afterFilter() {
-     }
+    function afterFilter() 
+    {
+    }
 }
