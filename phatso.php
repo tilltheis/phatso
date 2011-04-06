@@ -119,7 +119,7 @@ class Phatso
 
         $this->beforeFilter();
         if (method_exists($this, $action_method)) {
-			call_user_func_array(array(&$this, $action_method), $params);
+            call_user_func_array(array(&$this, $action_method), $params);
         }
         else {
             $this->status('404', 'File not found');
@@ -188,8 +188,8 @@ class Phatso
         }
         else {
             if (DEBUG) {
-	            echo 'File not found: ' . $this->templates_dir . DIRECTORY_SEPARATOR . $template_filename;
-	        }	
+                echo 'File not found: ' . $this->templates_dir . DIRECTORY_SEPARATOR . $template_filename;
+            }   
             $this->status('404', 'File not found');
         }
         return str_replace('/.../', $this->web_root, ob_get_clean());
@@ -221,7 +221,7 @@ class Phatso
     {
         $protocol = 'http://';
         $port = '';
-	    if (!empty($_SERVER['HTTPS'])) {
+        if (!empty($_SERVER['HTTPS'])) {
             $protocol = 'https://';
         }
         if ($_SERVER['SERVER_PORT'] != 80) {
