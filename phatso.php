@@ -70,8 +70,8 @@ class Phatso
     var $templates_dir    = 'templates';
     var $template_layout = 'layout.php';
     var $template_vars   = array();
-    var $web_root        = '';
-    var $action          = ''; 
+    var $web_root        = null;
+    var $action          = null;
     var $auto_render     = true;
 
     /**
@@ -80,54 +80,35 @@ class Phatso
      *
      * @param array $urls
      */
-    function run($urls) 
+    function run($urls)
     {
-        $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-        $this->web_root = $_SERVER['SCRIPT_NAME'];
+        $this->web_root = dirname($_SERVER['PHP_SELF']) . '/';
+        $request =  substr($_SERVER['REQUEST_URI'], strlen($this->web_root) - 1);
 
-        if (strpos($request, $this->web_root) !== 0) {
-            $this->web_root = dirname($this->web_root);
-
-            if (strpos($request, $this->web_root) !== 0) {
-                $this->web_root = '';
-            }
-        }
-
-        $ctrl = substr($request, strlen($this->web_root));
-        $ctrl = rtrim($ctrl, '/') . '/';
-        if ($ctrl{0} !== '/') {
-            $ctrl = "/$ctrl";
-        }
-
-        $this->web_root = rtrim($this->web_root, '/') . '/';
-
-
-        $action = '';
-        $params = array();
-        foreach($urls as $request=>$route) {
-            if (preg_match('#^'.$request.'$#', $ctrl, $matches)) {
-                $action = $route;
+        foreach($urls as $url => $route) {
+			$url = '/^' . str_replace('/', '\/', $url) . '\/?$/i';
+            if (preg_match($url, $request, $matches)) {
+                $this->action = $route;
+        		$action_method = $this->action . 'Action';
+        		$params = array();
                 if (!empty($matches[1])) {
                     $params = explode('/', trim($matches[1], '/'));
                 }
+		        if (method_exists($this, $action_method)) {
+			        $this->beforeFilter();
+		            call_user_func_array(array(&$this, $action_method), $params);
+			        if ($this->auto_render == true) {
+			            $this->render($this->action . '.php');
+			        }
+			        $this->afterFilter();
+		        }
                 break;
             }
         }
 
-        $this->action = $action;
-        $action_method = $action . 'Action';
-
-        $this->beforeFilter();
-        if (method_exists($this, $action_method)) {
-            call_user_func_array(array(&$this, $action_method), $params);
-        }
-        else {
-            $this->status('404', 'File not found');
-        }
-        if ($this->auto_render == true) {
-            $this->render($action . '.php');
-        }
-        $this->afterFilter();
+		if ($this->action === null) {
+	        $this->status('404', 'File Not Found');
+	    }
     }
 
     /**
