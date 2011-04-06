@@ -131,19 +131,23 @@ class Phatso
     }
 
     /**
-     * Set HTTP status code and exit.
+     * Set HTTP status code and exit if code >= 400.
      *
      * @param int $code
      * @param string $msg
      */
     function status($code, $msg) {
         header("{$_SERVER['SERVER_PROTOCOL']} $code $msg");
-        die($msg);
+        if(method_exists($this, 'status'.$code)) {
+            call_user_func(array(&$this, 'status'.$code), $msg);
+        }
+        if($code >= 400) {
+            exit;
+        }
     }
 
     /**
      * Redirect to a new URL
-     * Phatso::run() must have been called before.
      *
      * @param string $url
      * @param int $code
@@ -153,9 +157,9 @@ class Phatso
         if (!preg_match('(^http(s)?://)', $url)) {
             $url = $this->getBaseUrl() . $this->web_root . $url;
         }
-        header($_SERVER['SERVER_PROTOCOL'] . ' ' . $code . ' ' . $msg);
+        $this->status($code, $msg);
         header('Location: ' . $url);
-        die;
+        exit;
     }
 
     /**
