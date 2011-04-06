@@ -14,7 +14,7 @@ require_once('../phatso.php');
  */
 $URLS = array(
 	'/' => 'index',
-	'/hello/(.*)' => 'hello'
+	'/hello/?(.*)' => 'hello'
 );
 
 /**
