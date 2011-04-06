@@ -36,6 +36,14 @@ class SampleApp extends Phatso {
 		$this->set('text', sprintf('Hello %s!', $name));
 		// hello view is auto rendered
 	}
+	
+	/**
+	 * method to be executed when a 404 error happens
+	 */
+	function status404($msg) {
+		$this->set('msg', '404 - File Not Found');
+		$this->render('status404.php');
+	}
 }
 
 /**
