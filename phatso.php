@@ -182,8 +182,11 @@ class Phatso
         if (file_exists($this->templates_dir . DIRECTORY_SEPARATOR . $template_filename)) {
             require $this->templates_dir . DIRECTORY_SEPARATOR . $template_filename;
         }
-        elseif (DEBUG) {
-            echo 'File not found: ' . $this->templates_dir . DIRECTORY_SEPARATOR . $template_filename;
+        else {
+            if (DEBUG) {
+	            echo 'File not found: ' . $this->templates_dir . DIRECTORY_SEPARATOR . $template_filename;
+	        }	
+            $this->status('404', 'File not found');
         }
         return str_replace('/.../', $this->web_root, ob_get_clean());
     }
