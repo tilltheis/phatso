@@ -170,7 +170,7 @@ class Phatso
         else {
             if (DEBUG) {
                 echo 'File not found: ' . $this->templates_dir . DIRECTORY_SEPARATOR . $template_filename;
-            }   
+            }
             $this->status('404', 'File not found');
         }
         return str_replace('/.../', $this->web_root, ob_get_clean());
@@ -198,7 +198,7 @@ class Phatso
     /**
      * return the current url
      */
-    function getBaseUrl() 
+    function getBaseUrl()
     {
         $protocol = 'http://';
         $port = '';
@@ -221,7 +221,7 @@ class Phatso
     /**
      * abstract method to be run after calling the action method
      */
-    function afterFilter() 
+    function afterFilter()
     {
     }
 }
