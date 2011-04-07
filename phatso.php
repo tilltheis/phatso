@@ -82,7 +82,7 @@ class Phatso
      */
     function run($urls)
     {
-        $this->web_root = dirname($_SERVER['PHP_SELF']) . '/';
+        $this->web_root = rtrim(dirname($_SERVER['PHP_SELF']), '/') . '/';
         $request =  substr($_SERVER['REQUEST_URI'], strlen($this->web_root) - 1);
 
         foreach($urls as $url => $route) {
