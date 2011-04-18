@@ -108,12 +108,12 @@ class Phatso
     }
 
     /**
-     * Redirect to a new URL
+     * Redirect to a new (intern) URL
      * Phatso::run() must have been called before.
      */
-    function redirect($url) {
+    function redirect($path) {
         header('Location: ' . $this->web_root . $path);
-        die;
+        exit;
     }
 
     /**
