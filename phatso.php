@@ -162,7 +162,7 @@ class Phatso
         }
         else {
             if (DEBUG) {
-                echo 'File not found: ' . $this->templates_dir . DIRECTORY_SEPARATOR . $template_filename;
+                $this->debug('File not found: ' . $this->templates_dir . DIRECTORY_SEPARATOR . $template_filename);
             }
             return;
         }
