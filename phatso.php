@@ -57,11 +57,12 @@ else {
 
 class Phatso
 {
-    var $templates_dir    = 'templates';
+    var $templates_dir   = 'templates';
     var $template_layout = 'layout';
     var $template_vars   = array();
     var $web_root        = null;
     var $action          = null;
+    var $view            = null;
     var $auto_render     = true;
 
     /**
@@ -76,29 +77,30 @@ class Phatso
         $request =  substr($_SERVER['REQUEST_URI'], strlen($this->web_root) - 1);
 
         foreach($urls as $url => $route) {
-			$url = '/^' . str_replace('/', '\/', $url) . '\/?$/i';
+            $url = '/^' . str_replace('/', '\/', $url) . '\/?$/i';
             if (preg_match($url, $request, $matches)) {
                 $this->action = $route;
-        		$action_method = $this->action . 'Action';
-        		$params = array();
+                $action_method = $this->action . 'Action';
+                $params = array();
                 if (!empty($matches[1])) {
                     $params = explode('/', trim($matches[1], '/'));
                 }
-		        if (method_exists($this, $action_method)) {
-			        $this->beforeFilter();
-		            call_user_func_array(array(&$this, $action_method), $params);
-			        if ($this->auto_render == true) {
-			            $this->render($this->action);
-			        }
-			        $this->afterFilter();
-		        }
+                if (method_exists($this, $action_method)) {
+                    $this->view = $this->action;
+                    $this->beforeFilter();
+                    call_user_func_array(array(&$this, $action_method), $params);
+                    if ($this->auto_render == true) {
+                        echo $this->render($this->view);
+                    }
+                    $this->afterFilter();
+                }
                 break;
             }
         }
 
-		if ($this->action === null) {
-	        $this->status(404, 'File Not Found');
-	    }
+        if ($this->action === null) {
+            $this->status(404, 'File Not Found');
+        }
     }
 
     /**
@@ -110,7 +112,9 @@ class Phatso
     function status($code, $msg) {
         header("{$_SERVER['SERVER_PROTOCOL']} $code $msg");
         if(method_exists($this, 'status'.$code)) {
+            $this->view = 'status'.$code;
             call_user_func(array(&$this, 'status'.$code), $msg);
+            echo $this->render($this->view);
         }
         exit;
     }
@@ -160,7 +164,7 @@ class Phatso
             if (DEBUG) {
                 echo 'File not found: ' . $this->templates_dir . DIRECTORY_SEPARATOR . $template_filename;
             }
-            $this->status(404, 'File not found');
+            return;
         }
         return str_replace('/.../', $this->web_root, ob_get_clean());
     }
@@ -180,7 +184,7 @@ class Phatso
             $vars['CONTENT_FOR_LAYOUT'] = $this->fetch($filename, $vars);
             $filename = $layout;
         }
-        echo $this->fetch($filename, $vars);
+        return $this->fetch($filename, $vars);
         $this->auto_render = false;
     }
 
@@ -200,20 +204,20 @@ class Phatso
         return $protocol . $_SERVER['SERVER_NAME'] . $port;
     }
 
-	/**
-	 * debug function to dissplay a variable's value
-	 *
-	 * @param mixed $arg
-	 */
-	function debug($arg) {
-	    if (DEBUG === false) return;
-	    $args = func_get_args();
-	    echo '<pre>';
-	    foreach($args as $arg) {
-	        echo '(', gettype($arg), ') ', print_r($arg, TRUE)."<br/>\n";
-	    }
-	    echo '</pre>';
-	}
+    /**
+     * debug function to dissplay a variable's value
+     *
+     * @param mixed $arg
+     */
+    function debug($arg) {
+        if (DEBUG === false) return;
+        $args = func_get_args();
+        echo '<pre>';
+        foreach($args as $arg) {
+            echo '(', gettype($arg), ') ', print_r($arg, TRUE)."<br/>\n";
+        }
+        echo '</pre>';
+    }
 
     /**
      * abstract method to be run before calling the action method
