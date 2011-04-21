@@ -99,6 +99,9 @@ class Phatso
         }
 
         if ($this->action === null) {
+            if (DEBUG) {
+                $this->debug('Route nout found: ' . $request);
+            }
             $this->status(404, 'File Not Found');
         }
     }
