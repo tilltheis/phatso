@@ -177,15 +177,12 @@ class Phatso
      * content to the browser.
      *
      * @param string $filename
-     * @param array $vars
-     * @param string $layout
      */
-    function render($filename, $vars=array())
+    function render($filename)
     {
-        $vars['CONTENT_FOR_LAYOUT'] = $this->fetch($filename, $vars);
-        $filename = $this->layout;
+        $this->set('CONTENT_FOR_LAYOUT', $this->fetch($filename));
         $this->auto_render = false;
-        return $this->fetch($filename, $vars);
+        return $this->fetch($this->layout);
     }
 
     /**
