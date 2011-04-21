@@ -55,16 +55,6 @@ else {
     ini_set('display_errors', 0);
 }
 
-function debug($arg) {
-    if (DEBUG === false) return;
-    $args = func_get_args();
-    echo '<pre>';
-    foreach($args as $arg) {
-        echo '(', gettype($arg), ') ', print_r($arg, TRUE)."<br/>\n";
-    }
-    echo '</pre>';
-}
-
 class Phatso
 {
     var $templates_dir    = 'templates';
@@ -209,6 +199,21 @@ class Phatso
         }
         return $protocol . $_SERVER['SERVER_NAME'] . $port;
     }
+
+	/**
+	 * debug function to dissplay a variable's value
+	 *
+	 * @param mixed $arg
+	 */
+	function debug($arg) {
+	    if (DEBUG === false) return;
+	    $args = func_get_args();
+	    echo '<pre>';
+	    foreach($args as $arg) {
+	        echo '(', gettype($arg), ') ', print_r($arg, TRUE)."<br/>\n";
+	    }
+	    echo '</pre>';
+	}
 
     /**
      * abstract method to be run before calling the action method
