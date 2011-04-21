@@ -63,7 +63,6 @@ class Phatso
     var $web_root        = null;
     var $action          = null;
     var $view            = null;
-    var $auto_render     = true;
 
     /**
      * Dispatch web request to correct function, as defined by
@@ -89,9 +88,7 @@ class Phatso
                     $this->view = $this->action;
                     $this->beforeFilter();
                     call_user_func_array(array(&$this, $action_method), $params);
-                    if ($this->auto_render == true) {
-                        echo $this->render($this->view);
-                    }
+                    echo $this->render($this->view);
                     $this->afterFilter();
                 }
                 break;
@@ -180,7 +177,6 @@ class Phatso
     function render($filename)
     {
         $this->set('CONTENT_FOR_LAYOUT', $this->fetch($filename));
-        $this->auto_render = false;
         return $this->fetch($this->layout);
     }
 
