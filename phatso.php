@@ -154,12 +154,11 @@ class Phatso
      * @param string $template_filename
      * @param array $vars
      */
-    function fetch($template_filename, $vars=array())
+    function fetch($template_filename)
     {
         $template_filename .= '.php';
-        $vars = array_merge($this->template_vars, $vars);
         ob_start();
-        extract($vars, EXTR_SKIP);
+        extract($this->template_vars, EXTR_SKIP);
         if (file_exists($this->templates_dir . DIRECTORY_SEPARATOR . $template_filename)) {
             require $this->templates_dir . DIRECTORY_SEPARATOR . $template_filename;
         }
