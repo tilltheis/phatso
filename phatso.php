@@ -85,7 +85,7 @@ class Phatso
                     $params = explode('/', trim($matches[1], '/'));
                 }
                 if (method_exists($this, $action_method)) {
-                    $this->view = $this->action;
+                    $this->setView($this->action);
                     $this->beforeFilter();
                     call_user_func_array(array(&$this, $action_method), $params);
                     echo $this->render($this->view);
@@ -111,9 +111,9 @@ class Phatso
      */
     function status($code, $msg) {
         header("{$_SERVER['SERVER_PROTOCOL']} $code $msg");
-        if(method_exists($this, 'status'.$code)) {
-            $this->view = 'status'.$code;
-            call_user_func(array(&$this, 'status'.$code), $msg);
+        if(method_exists($this, 'status' . $code)) {
+            $this->setView('status' . $code);
+            call_user_func(array(&$this, 'status' . $code), $msg);
             echo $this->render($this->view);
         }
         exit;

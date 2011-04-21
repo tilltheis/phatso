@@ -42,6 +42,7 @@ class SampleApp extends Phatso {
 	 */
 	function status404($msg) {
 		$this->set('msg', '404 - File Not Found');
+		// status404 view is auto rendered
 	}
 }
 
