@@ -208,6 +208,25 @@ class Phatso
     }
 
     /**
+     * set the layout to use while rendering the page
+     *
+     * @param string $layout
+     */
+
+    function setLayout($layout) {
+        $this->layout = $layout;
+    }
+
+    /**
+     * set the view to use while rendering the page
+     *
+     * @param string $view
+     */
+    function setView($view) {
+        $this->view = $view;
+    }
+
+    /**
      * debug function to dissplay a variable's value
      *
      * @param mixed $arg
