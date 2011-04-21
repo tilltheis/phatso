@@ -149,7 +149,6 @@ class Phatso
      * Render a template and return the content.
      *
      * @param string $template_filename
-     * @param array $vars
      */
     function fetch($template_filename)
     {
@@ -169,8 +168,7 @@ class Phatso
     }
 
     /**
-     * Render a template (with optional layout) and send the
-     * content to the browser.
+     * Render a template and return the content as a string
      *
      * @param string $filename
      */
