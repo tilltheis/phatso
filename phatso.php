@@ -130,7 +130,7 @@ class Phatso
         if (!preg_match('(^http(s)?://)', $url)) {
             $url = $this->getBaseUrl() . $this->web_root . $url;
         }
-        $this->status($code, $msg);
+        header("{$_SERVER['SERVER_PROTOCOL']} $code $msg");
         header('Location: ' . $url);
         exit;
     }
