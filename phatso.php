@@ -58,7 +58,7 @@ else {
 class Phatso
 {
     var $templates_dir   = 'templates';
-    var $template_layout = 'layout';
+    var $layout = 'layout';
     var $template_vars   = array();
     var $web_root        = null;
     var $action          = null;
@@ -180,15 +180,12 @@ class Phatso
      * @param array $vars
      * @param string $layout
      */
-    function render($filename, $vars=array(), $layout='')
+    function render($filename, $vars=array())
     {
-        if (empty($layout)) $layout = $this->template_layout;
-        if ($layout) {
-            $vars['CONTENT_FOR_LAYOUT'] = $this->fetch($filename, $vars);
-            $filename = $layout;
-        }
-        return $this->fetch($filename, $vars);
+        $vars['CONTENT_FOR_LAYOUT'] = $this->fetch($filename, $vars);
+        $filename = $this->layout;
         $this->auto_render = false;
+        return $this->fetch($filename, $vars);
     }
 
     /**
