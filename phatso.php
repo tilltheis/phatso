@@ -107,7 +107,7 @@ class Phatso
         }
 
 		if ($this->action === null) {
-	        $this->status('404', 'File Not Found');
+	        $this->status(404, 'File Not Found');
 	    }
     }
 
@@ -122,9 +122,7 @@ class Phatso
         if(method_exists($this, 'status'.$code)) {
             call_user_func(array(&$this, 'status'.$code), $msg);
         }
-        if($code >= 400) {
-            exit;
-        }
+        exit;
     }
 
     /**
@@ -172,7 +170,7 @@ class Phatso
             if (DEBUG) {
                 echo 'File not found: ' . $this->templates_dir . DIRECTORY_SEPARATOR . $template_filename;
             }
-            $this->status('404', 'File not found');
+            $this->status(404, 'File not found');
         }
         return str_replace('/.../', $this->web_root, ob_get_clean());
     }
