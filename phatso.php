@@ -111,11 +111,11 @@ class Phatso
      */
     function status($code, $msg) {
         header("{$_SERVER['SERVER_PROTOCOL']} $code $msg");
+        $this->setView('status' . $code);
         if(method_exists($this, 'status' . $code)) {
-            $this->setView('status' . $code);
             call_user_func(array(&$this, 'status' . $code), $msg);
-            echo $this->render($this->view);
         }
+        echo $this->render($this->view);
         exit;
     }
 
