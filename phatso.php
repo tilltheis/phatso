@@ -68,7 +68,7 @@ function debug($arg) {
 class Phatso
 {
     var $templates_dir    = 'templates';
-    var $template_layout = 'layout.php';
+    var $template_layout = 'layout';
     var $template_vars   = array();
     var $web_root        = null;
     var $action          = null;
@@ -98,7 +98,7 @@ class Phatso
 			        $this->beforeFilter();
 		            call_user_func_array(array(&$this, $action_method), $params);
 			        if ($this->auto_render == true) {
-			            $this->render($this->action . '.php');
+			            $this->render($this->action);
 			        }
 			        $this->afterFilter();
 		        }
@@ -161,6 +161,7 @@ class Phatso
      */
     function fetch($template_filename, $vars=array())
     {
+        $template_filename .= '.php';
         $vars = array_merge($this->template_vars, $vars);
         ob_start();
         extract($vars, EXTR_SKIP);
